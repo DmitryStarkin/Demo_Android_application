@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    android:id="@+id/catalogItem"
+
+    android:paddingBottom="4dp"
+    android:layout_marginTop="4dp"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+    <TextView
+        android:id="@+id/firstName"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+
+        android:layout_marginStart="4dp"
+        android:textStyle="normal"
+        android:textAlignment="textStart"
+        android:lineSpacingExtra="3sp"
+
+        android:maxLines="1"
+        android:paddingBottom="4dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        tools:text="Follow-up Hi! The day just got better. I think you \nSlack, the messaging app for teams at work\nThe day just got better. I think you \nSlack, the messaging app for teams at work"
+        />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
