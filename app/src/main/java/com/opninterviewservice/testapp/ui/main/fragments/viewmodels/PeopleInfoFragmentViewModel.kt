@@ -1,18 +1,26 @@
 package com.opninterviewservice.testapp.ui.main.fragments.viewmodels
 
-import com.opninterviewservice.testapp.restapi.ApiCaller
+import androidx.lifecycle.viewModelScope
+import com.opninterviewservice.testapp.restapi.AsyncApiCaller
+import com.opninterviewservice.testapp.restapi.BlockingApiCaller
 import com.opninterviewservice.testapp.restapi.PeopleData
 import com.opninterviewservice.testapp.ui.main.ViewStateWrapper
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 //This File Created at 21.10.2020 14:17.
+
+/**
+ * this class demonstrates how to call a rest API using coroutines
+ */
 class PeopleInfoFragmentViewModel : BaseViewModel() {
 
     var currentPeople: PeopleData? = null
 
     fun requestPeopleInfo(id: String) {
         if (id.isEmpty()) {
-            postError(Exception("Empty Id"))
+            setError(Exception("Empty Id"))
         }
         currentPeople?.run { if(currentPeople?.id == id) {
             updateUI()
@@ -21,15 +29,20 @@ class PeopleInfoFragmentViewModel : BaseViewModel() {
         } } ?: getPeopleInfo(id)
     }
 
-    private fun getPeopleInfo(id: String){
+    private fun getPeopleInfo(id: String) {
 
-        state.postValue(ViewStateWrapper(UIStates.LOADING, true))
-        ApiCaller.getPeopleData(id, { peopleData ->
-            state.postValue(ViewStateWrapper(UIStates.LOADING, false))
-            currentPeople = peopleData
-            updateUI()
-        }, { e ->
-            postError(e)
-        })
+        state.value = ViewStateWrapper(UIStates.LOADING, true)
+
+        viewModelScope.launch(Dispatchers.IO) {
+            val data = try {
+                BlockingApiCaller.getPeopleData(id)
+            } catch (t: Throwable) {
+                postError(t)
+            }
+            viewModelScope.launch(Dispatchers.Main) {
+                currentPeople = data as PeopleData
+                updateUI()
+            }
+        }
     }
 }

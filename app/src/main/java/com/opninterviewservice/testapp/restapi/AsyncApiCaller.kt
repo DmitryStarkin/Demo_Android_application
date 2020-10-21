@@ -18,7 +18,11 @@ const val USER_DATA_LINK_PATTERN = "${BuildConfig.USER_DATA_URL}%s"
 const val ERROR = "Error code"
 val HEADERS = mapOf("Authorization" to BuildConfig.AUTORIZATION_HEADER)
 
-object ApiCaller {
+
+/**
+ * this class demonstrates an asynchronous call to the rest API using Retrofit
+ */
+object AsyncApiCaller {
 
     private val log = Logger(this::class.java.simpleName)
     private val retrofitAPI: PeopleInfoAPI = App.instance.retrofit.create(PeopleInfoAPI::class.java)
@@ -37,8 +41,12 @@ object ApiCaller {
                 when (response.code()) {
                     CODE_OK -> {
                         log.d { response.body().toString() }
-                        val data = gson.fromJson<List<ShortPeopleData>>(response.body(), ShortPeopleData::class.java)
-                        onSusses.invoke(data)
+                        try {
+                            val data = gson.fromJson<List<ShortPeopleData>>(response.body(), ShortPeopleData::class.java)
+                            onSusses.invoke(data)
+                        } catch (t:Throwable){
+                            onError.invoke(t)
+                        }
                     }
                     CODE_UNAUTHORIZED -> {
                         onError.invoke( Exception(ERROR + " " + response.code().toString() + (response.errorBody() ?:"Unauthorized")))
@@ -64,7 +72,7 @@ object ApiCaller {
                 when (response.code()) {
                     CODE_OK -> {
                         log.d { response.body().toString() }
-                        val data = gson.fromJson<PeopleData>(response.body(), PeopleData::class.java)
+                        val data = gson.fromJson(response.body(), PeopleData::class.java)
                         onSusses.invoke(data)
                     }
                     else -> {
