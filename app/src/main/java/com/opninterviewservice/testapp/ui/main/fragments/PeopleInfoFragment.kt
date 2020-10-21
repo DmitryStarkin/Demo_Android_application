@@ -14,7 +14,7 @@ import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.PeopleInfoFr
 import kotlinx.android.synthetic.main.people_list_fragment.*
 
 const val ID_KEY = "id"
-
+//                        TODO change it to real layout
 class PeopleInfoFragment : Fragment(R.layout.people_list_fragment) {
 
     companion object {

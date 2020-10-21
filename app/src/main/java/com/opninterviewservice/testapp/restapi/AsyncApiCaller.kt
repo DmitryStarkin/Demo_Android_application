@@ -18,7 +18,6 @@ const val USER_DATA_LINK_PATTERN = "${BuildConfig.USER_DATA_URL}%s"
 const val ERROR = "Error code"
 val HEADERS = mapOf("Authorization" to BuildConfig.AUTORIZATION_HEADER)
 
-
 /**
  * this class demonstrates an asynchronous call to the rest API using Retrofit
  */
