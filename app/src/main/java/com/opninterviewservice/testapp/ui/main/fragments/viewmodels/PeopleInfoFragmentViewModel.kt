@@ -1,7 +1,6 @@
 package com.opninterviewservice.testapp.ui.main.fragments.viewmodels
 
 import androidx.lifecycle.viewModelScope
-import com.opninterviewservice.testapp.restapi.AsyncApiCaller
 import com.opninterviewservice.testapp.restapi.BlockingApiCaller
 import com.opninterviewservice.testapp.restapi.PeopleData
 import com.opninterviewservice.testapp.ui.main.ViewStateWrapper

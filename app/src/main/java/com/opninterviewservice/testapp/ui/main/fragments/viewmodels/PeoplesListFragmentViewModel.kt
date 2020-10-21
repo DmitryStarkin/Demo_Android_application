@@ -20,7 +20,7 @@ class PeoplesListFragmentViewModel : BaseViewModel() {
                 peoples.addAll(newPeoples)
                 updateUI()
             }, { e ->
-                postError(e)
+                setError(e)
             })
         } else {
             updateUI()
