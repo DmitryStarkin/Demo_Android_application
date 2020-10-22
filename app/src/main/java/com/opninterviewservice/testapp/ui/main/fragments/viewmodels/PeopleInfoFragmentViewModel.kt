@@ -1,8 +1,8 @@
 package com.opninterviewservice.testapp.ui.main.fragments.viewmodels
 
 import androidx.lifecycle.viewModelScope
-import com.opninterviewservice.testapp.restapi.BlockingApiCaller
-import com.opninterviewservice.testapp.restapi.PeopleData
+import com.opninterviewservice.testapp.restapi.*
+import com.opninterviewservice.testapp.restapi.AsyncApiCaller.getPeoples
 import com.opninterviewservice.testapp.ui.main.ViewStateWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -22,11 +22,13 @@ class PeopleInfoFragmentViewModel : BaseViewModel() {
         if (id.isEmpty()) {
             setError(Exception("Empty Id"))
         }
-        currentPeople?.run { if(currentPeople?.id == id) {
-            updateUI()
-        } else {
-            getPeopleInfo(id)
-        } } ?: getPeopleInfo(id)
+        currentPeople?.run {
+            if (currentPeople?.id == id) {
+                updateUI()
+            } else {
+                getPeopleInfo(id)
+            }
+        } ?: getPeopleInfo(id)
     }
 
     private fun getPeopleInfo(id: String) {
@@ -48,6 +50,27 @@ class PeopleInfoFragmentViewModel : BaseViewModel() {
                 currentPeople = data
                 updateUI()
             }
+        }
+    }
+
+    /**
+     * this function does the same as the previous one but runs the coroutine on the main thread and uses the suspend function
+     */
+    private fun getPeopleInfo2(id: String) {
+
+        state.value = ViewStateWrapper(UIStates.LOADING, true)
+        viewModelScope.launch {
+            currentPeople = try {
+                AsyncApiCaller.getPeopleData(id)
+            } catch (t: Throwable) {
+                postError(t)
+//                we can remove cancel here, then the currentPeople variable will get a null value
+//                and this situation will be processed in the fragment as an empty profile
+//                otherwise an error message will be displayed
+                cancel()
+                null
+            }
+            updateUI()
         }
     }
 }
