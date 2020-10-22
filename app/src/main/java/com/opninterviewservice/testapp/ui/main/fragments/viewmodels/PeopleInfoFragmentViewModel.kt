@@ -33,7 +33,7 @@ class PeopleInfoFragmentViewModel : BaseViewModel() {
 
         state.value = ViewStateWrapper(UIStates.LOADING, true)
 
-        val job = viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             val data = try {
                 BlockingApiCaller.getPeopleData(id)
             } catch (t: Throwable) {
