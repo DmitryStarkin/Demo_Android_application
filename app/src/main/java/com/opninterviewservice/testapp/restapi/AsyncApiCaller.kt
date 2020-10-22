@@ -25,33 +25,41 @@ object AsyncApiCaller {
 
     private val log = Logger(this::class.java.simpleName)
     private val retrofitAPI: PeopleInfoAPI = App.instance.retrofit.create(PeopleInfoAPI::class.java)
-    val gson = GsonBuilder().create()
 
     fun getPeoples(onSusses: (List<ShortPeopleData>) -> Unit, onError: (Throwable) -> Unit) {
 
-        retrofitAPI.peoplesCall(HEADERS).enqueue(object : Callback<String> {
-            override fun onFailure(call: Call<String>, t: Throwable) {
+        retrofitAPI.peoplesCall(HEADERS).enqueue(object : Callback<List<ShortPeopleData>> {
+            override fun onFailure(call: Call<List<ShortPeopleData>>, t: Throwable) {
                 log.d { "onFailure" }
                 onError.invoke(t)
             }
 
-            override fun onResponse(call: Call<String>, response: Response<String>) {
+            override fun onResponse(call: Call<List<ShortPeopleData>>, response: Response<List<ShortPeopleData>>) {
                 log.d { response.code().toString() }
                 when (response.code()) {
                     CODE_OK -> {
                         log.d { response.body().toString() }
-                        try {
-                            val data = gson.fromJson<List<ShortPeopleData>>(response.body(), ShortPeopleData::class.java)
-                            onSusses.invoke(data)
-                        } catch (t:Throwable){
-                            onError.invoke(t)
-                        }
+                        response.body()?.apply { onSusses.invoke(this) } ?: onError.invoke(
+                            Exception(
+                                "Empty response"
+                            )
+                        )
                     }
                     CODE_UNAUTHORIZED -> {
-                        onError.invoke( Exception(ERROR + " " + response.code().toString() + (response.errorBody() ?:"Unauthorized")))
+                        onError.invoke(
+                            Exception(
+                                ERROR + " " + response.code().toString() + (response.errorBody()
+                                    ?: "Unauthorized")
+                            )
+                        )
                     }
                     else -> {
-                        onError.invoke( Exception(ERROR + " " + response.code().toString() + " " + (response.errorBody() ?: "Unknown error")))
+                        onError.invoke(
+                            Exception(
+                                "$ERROR " + response.code()
+                                    .toString() + " " + (response.errorBody() ?: "Unknown error")
+                            )
+                        )
                     }
                 }
             }
@@ -60,27 +68,34 @@ object AsyncApiCaller {
 
     fun getPeopleData(id: String, onSusses: (PeopleData) -> Unit, onError: (Throwable) -> Unit) {
 
-        retrofitAPI.peopleInfoCall( String.format(USER_DATA_LINK_PATTERN, id), HEADERS).enqueue(object : Callback<String> {
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                log.d { "onFailure" }
-                onError.invoke(t)
-            }
+        retrofitAPI.peopleInfoCall(String.format(USER_DATA_LINK_PATTERN, id), HEADERS)
+            .enqueue(object : Callback<PeopleData> {
+                override fun onFailure(call: Call<PeopleData>, t: Throwable) {
+                    log.d { "onFailure" }
+                    onError.invoke(t)
+                }
 
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                log.d { response.code().toString() }
-                when (response.code()) {
-                    CODE_OK -> {
-                        log.d { response.body().toString() }
-                        val data = gson.fromJson(response.body(), PeopleData::class.java)
-                        onSusses.invoke(data)
-                    }
-                    else -> {
-                        onError.invoke(Exception(response.code().toString() + " " + (response.body() ?: "Unknown error")))
+                override fun onResponse(call: Call<PeopleData>, response: Response<PeopleData>) {
+                    log.d { response.code().toString() }
+                    when (response.code()) {
+                        CODE_OK -> {
+                            log.d { response.body().toString() }
+                            response.body()?.apply { onSusses.invoke(this) } ?: onError.invoke(
+                                Exception(
+                                    "Empty response"
+                                )
+                            )
+                        }
+                        else -> {
+                            onError.invoke(
+                                Exception(
+                                    "$ERROR " + response.code().toString() + " " + (response.errorBody()
+                                        ?: "Unknown error")
+                                )
+                            )
+                        }
                     }
                 }
-            }
-        })
+            })
     }
-
-
 }
