@@ -40,6 +40,7 @@ class PeopleInfoFragmentViewModel : BaseViewModel() {
                 postError(t)
 //                we can remove cancel here, then the currentPeople variable will get a null value
 //                and this situation will be processed in the fragment as an empty profile
+//                otherwise an error message will be displayed
                 cancel()
                 null
             }
