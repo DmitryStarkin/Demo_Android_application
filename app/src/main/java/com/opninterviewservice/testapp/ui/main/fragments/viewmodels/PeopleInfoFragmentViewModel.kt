@@ -44,7 +44,7 @@ class PeopleInfoFragmentViewModel : BaseViewModel() {
                 cancel()
                 null
             }
-            viewModelScope.launch(Dispatchers.Main) {
+            launch(Dispatchers.Main) {
                 currentPeople = data
                 updateUI()
             }
