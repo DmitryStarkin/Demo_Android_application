@@ -38,10 +38,13 @@ class PeopleInfoFragmentViewModel : BaseViewModel() {
                 BlockingApiCaller.getPeopleData(id)
             } catch (t: Throwable) {
                 postError(t)
+//                we can remove cancel here, then the currentPeople variable will get a null value
+//                and this situation will be processed in the fragment as an empty profile
                 cancel()
+                null
             }
             viewModelScope.launch(Dispatchers.Main) {
-                currentPeople = data as PeopleData
+                currentPeople = data
                 updateUI()
             }
         }
