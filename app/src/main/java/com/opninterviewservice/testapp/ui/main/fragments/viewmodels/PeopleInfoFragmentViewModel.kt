@@ -5,6 +5,7 @@ import com.opninterviewservice.testapp.restapi.BlockingApiCaller
 import com.opninterviewservice.testapp.restapi.PeopleData
 import com.opninterviewservice.testapp.ui.main.ViewStateWrapper
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 
@@ -32,11 +33,12 @@ class PeopleInfoFragmentViewModel : BaseViewModel() {
 
         state.value = ViewStateWrapper(UIStates.LOADING, true)
 
-        viewModelScope.launch(Dispatchers.IO) {
+        val job = viewModelScope.launch(Dispatchers.IO) {
             val data = try {
                 BlockingApiCaller.getPeopleData(id)
             } catch (t: Throwable) {
                 postError(t)
+                cancel()
             }
             viewModelScope.launch(Dispatchers.Main) {
                 currentPeople = data as PeopleData
