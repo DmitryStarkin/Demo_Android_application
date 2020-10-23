@@ -1,5 +1,6 @@
 package com.opninterviewservice.testapp.restapi
 
+import com.opninterviewservice.testapp.interfaces.rest.base.AsyncApiCaller
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -11,10 +12,10 @@ import kotlin.coroutines.suspendCoroutine
  * extension functions for executing requests from coroutines
  */
 
-suspend fun AsyncApiCaller.getPeopleData(id: String): PeopleData {
+suspend fun AsyncApiCaller.getPersonData(id: String): PersonData {
 
     return suspendCoroutine { continuation ->
-        this.getPeopleData(id, { peopleData ->
+        this.getPersonData(id, { peopleData ->
             continuation.resume(peopleData)
         }, { e ->
             continuation.resumeWithException(e)
@@ -22,10 +23,14 @@ suspend fun AsyncApiCaller.getPeopleData(id: String): PeopleData {
     }
 }
 
-suspend fun AsyncApiCaller.getPeoples(): List<ShortPeopleData> {
+/**
+ * extension functions for executing requests from coroutines
+ */
+
+suspend fun AsyncApiCaller.getPeople(): List<ShortPersonData> {
 
     return suspendCoroutine { continuation ->
-        this.getPeoples({ peoples ->
+        this.getPeople({ peoples ->
             continuation.resume(peoples)
         }, { e ->
             continuation.resumeWithException(e)

@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         router = FragmentRouter(supportFragmentManager, R.id.container)
         if (savedInstanceState == null) {
-            router.moveToView(FragmentRouter.FragmentRoutes.ID_LIST)
+            router.moveToView(FragmentRouter.FragmentRoutes.PEOPLE_LIST)
         }
     }
 }

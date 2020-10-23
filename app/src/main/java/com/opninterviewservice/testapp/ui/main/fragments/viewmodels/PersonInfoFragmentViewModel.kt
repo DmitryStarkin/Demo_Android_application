@@ -2,7 +2,8 @@ package com.opninterviewservice.testapp.ui.main.fragments.viewmodels
 
 import androidx.lifecycle.viewModelScope
 import com.opninterviewservice.testapp.restapi.*
-import com.opninterviewservice.testapp.restapi.AsyncApiCaller.getPeoples
+import com.opninterviewservice.testapp.restapi.retrofit.RetrofitAsyncApiCaller
+import com.opninterviewservice.testapp.restapi.retrofit.RetrofitBlockingApiCaller
 import com.opninterviewservice.testapp.ui.main.ViewStateWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -14,30 +15,32 @@ import kotlinx.coroutines.launch
 /**
  * this class demonstrates how to call a rest API using coroutines
  */
-class PeopleInfoFragmentViewModel : BaseViewModel() {
+class PersonInfoFragmentViewModel : BaseViewModel() {
 
-    var currentPeople: PeopleData? = null
+    var currentPerson: PersonData? = null
+    val asyncRestApi = RetrofitAsyncApiCaller()
+    val blockingRestApi = RetrofitBlockingApiCaller()
 
-    fun requestPeopleInfo(id: String) {
+    fun requestPersonInfo(id: String) {
         if (id.isEmpty()) {
             setError(Exception("Empty Id"))
         }
-        currentPeople?.run {
-            if (currentPeople?.id == id) {
+        currentPerson?.run {
+            if (currentPerson?.id == id) {
                 updateUI()
             } else {
-                getPeopleInfo(id)
+                getPersonInfo(id)
             }
-        } ?: getPeopleInfo(id)
+        } ?: getPersonInfo(id)
     }
 
-    private fun getPeopleInfo(id: String) {
+    private fun getPersonInfo(id: String) {
 
         state.value = ViewStateWrapper(UIStates.LOADING, true)
 
         viewModelScope.launch(Dispatchers.IO) {
             val data = try {
-                BlockingApiCaller.getPeopleData(id)
+                blockingRestApi.getPersonData(id)
             } catch (t: Throwable) {
                 postError(t)
 //                we can remove cancel here, then the currentPeople variable will get a null value
@@ -47,7 +50,7 @@ class PeopleInfoFragmentViewModel : BaseViewModel() {
                 null
             }
             launch(Dispatchers.Main) {
-                currentPeople = data
+                currentPerson = data
                 updateUI()
             }
         }
@@ -56,12 +59,12 @@ class PeopleInfoFragmentViewModel : BaseViewModel() {
     /**
      * this function does the same as the previous one but runs the coroutine on the main thread and uses the suspend function
      */
-    private fun getPeopleInfo2(id: String) {
+    private fun getPersonInfo2(id: String) {
 
         state.value = ViewStateWrapper(UIStates.LOADING, true)
         viewModelScope.launch {
-            currentPeople = try {
-                AsyncApiCaller.getPeopleData(id)
+            currentPerson = try {
+                asyncRestApi.getPersonData(id) //suspend function
             } catch (t: Throwable) {
                 postError(t)
 //                we can remove cancel here, then the currentPeople variable will get a null value

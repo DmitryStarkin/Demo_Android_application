@@ -3,8 +3,8 @@ package com.opninterviewservice.testapp.ui.main
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.opninterviewservice.testapp.ui.main.fragments.PeoplesListFragment
-import com.opninterviewservice.testapp.ui.main.fragments.PeopleInfoFragment
+import com.opninterviewservice.testapp.ui.main.fragments.PeopleListFragment
+import com.opninterviewservice.testapp.ui.main.fragments.PersonInfoFragment
 
 
 //This File Created at 20.10.2020 12:08.
@@ -15,13 +15,13 @@ class FragmentRouter(private val manager: FragmentManager, private val container
     fun moveToView(rout: FragmentRoutes, data: Bundle? = null) {
         when (rout) {
 
-            FragmentRoutes.ID_LIST -> {
-                setFragment(PeoplesListFragment.newInstance())
+            FragmentRoutes.PEOPLE_LIST -> {
+                setFragment(PeopleListFragment.newInstance())
             }
 
-            FragmentRoutes.USER_VIEW -> {
+            FragmentRoutes.PERSON_VIEW -> {
                 data?.let {
-                    setFragment(PeopleInfoFragment.newInstance(it))
+                    setFragment(PersonInfoFragment.newInstance(it))
                 }
             }
         }
@@ -37,9 +37,9 @@ class FragmentRouter(private val manager: FragmentManager, private val container
         /**
          * Rout to
          */
-        ID_LIST,
+        PEOPLE_LIST,
         /**
          */
-        USER_VIEW
+        PERSON_VIEW
     }
 }

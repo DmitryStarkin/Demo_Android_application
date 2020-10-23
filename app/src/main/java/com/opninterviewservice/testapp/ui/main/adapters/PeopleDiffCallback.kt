@@ -1,13 +1,13 @@
 package com.opninterviewservice.testapp.ui.main.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.opninterviewservice.testapp.restapi.ShortPeopleData
+import com.opninterviewservice.testapp.restapi.ShortPersonData
 
 
 //This File Created at 20.10.2020 17:37.
-class PeoplesDiffCallback(
-    private val oldList: List<ShortPeopleData>,
-    private val newList: List<ShortPeopleData>
+class PeopleDiffCallback(
+    private val oldList: List<ShortPersonData>,
+    private val newList: List<ShortPersonData>
 ) : DiffUtil.Callback() {
 
     override fun getOldListSize(): Int = oldList.size

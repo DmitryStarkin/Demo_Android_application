@@ -10,26 +10,26 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.opninterviewservice.testapp.R
 import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.BaseViewModel
-import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.PeopleInfoFragmentViewModel
+import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.PersonInfoFragmentViewModel
 import kotlinx.android.synthetic.main.people_list_fragment.*
 
 const val ID_KEY = "id"
 //                        TODO change it to real layout
-class PeopleInfoFragment : Fragment(R.layout.people_list_fragment) {
+class PersonInfoFragment : Fragment(R.layout.people_list_fragment) {
 
     companion object {
-        fun newInstance(args: Bundle): PeopleInfoFragment {
-            val fragment = PeopleInfoFragment()
+        fun newInstance(args: Bundle): PersonInfoFragment {
+            val fragment = PersonInfoFragment()
             fragment.arguments = args
             return fragment
         }
     }
 
-    private lateinit var viewModel: PeopleInfoFragmentViewModel
+    private lateinit var viewModel: PersonInfoFragmentViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get((PeopleInfoFragmentViewModel::class.java))
+        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get((PersonInfoFragmentViewModel::class.java))
         viewModel.getState().observe(this as LifecycleOwner, {
             when (it?.state) {
                 BaseViewModel.UIStates.LOADING -> {
@@ -57,7 +57,7 @@ class PeopleInfoFragment : Fragment(R.layout.people_list_fragment) {
 
                 BaseViewModel.UIStates.UPDATE_UI -> {
                     spinner.visibility = View.GONE
-                    viewModel.currentPeople?.apply {
+                    viewModel.currentPerson?.apply {
                         emptyMessage.visibility = View.GONE
 //                        TODO set UI values here
                         changeUIVisibility(VisibilityState.VISIBLE)
@@ -77,7 +77,7 @@ class PeopleInfoFragment : Fragment(R.layout.people_list_fragment) {
 
     override fun onStart() {
         super.onStart()
-        viewModel.requestPeopleInfo(arguments?.getString(ID_KEY,"") ?: "")
+        viewModel.requestPersonInfo(arguments?.getString(ID_KEY,"") ?: "")
     }
 
     enum class VisibilityState(val state: Int) {

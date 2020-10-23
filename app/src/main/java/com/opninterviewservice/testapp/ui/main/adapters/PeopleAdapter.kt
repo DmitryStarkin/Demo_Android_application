@@ -6,16 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.opninterviewservice.testapp.R
-import com.opninterviewservice.testapp.restapi.ShortPeopleData
+import com.opninterviewservice.testapp.restapi.ShortPersonData
 import kotlinx.android.synthetic.main.first_name__item.view.*
 import java.util.*
 
 
 //This File Created at 20.10.2020 17:00.
 
-class PeoplesAdapter(
-    val peoples: ArrayList<ShortPeopleData>,
-    val itemClickListener: (shortPeopleInfo: ShortPeopleData) -> Unit
+class PeopleAdapter(
+    val people: ArrayList<ShortPersonData>,
+    val itemClickListener: (shortPersonInfo: ShortPersonData) -> Unit
 ) : RecyclerView.Adapter<CatalogViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogViewHolder =
@@ -24,17 +24,17 @@ class PeoplesAdapter(
                 .inflate(R.layout.first_name__item, parent, false)
         )
 
-    override fun getItemCount(): Int = peoples.size
+    override fun getItemCount(): Int = people.size
 
     override fun onBindViewHolder(holder: CatalogViewHolder, position: Int) {
-        holder.bind(peoples[position], itemClickListener)
+        holder.bind(people[position], itemClickListener)
     }
 
-    fun setData(newPeoples: List<ShortPeopleData>) {
-        val diffCallback = PeoplesDiffCallback(peoples, newPeoples)
+    fun setData(newPeople: List<ShortPersonData>) {
+        val diffCallback = PeopleDiffCallback(people, newPeople)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
-        peoples.clear()
-        peoples.addAll(newPeoples)
+        people.clear()
+        people.addAll(newPeople)
         diffResult.dispatchUpdatesTo(this)
     }
 }
@@ -42,8 +42,8 @@ class PeoplesAdapter(
 class CatalogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(
-        item: ShortPeopleData,
-        itemClickListener: (shortPeopleInfo: ShortPeopleData) -> Unit
+        item: ShortPersonData,
+        itemClickListener: (shortPersonInfo: ShortPersonData) -> Unit
     ) {
         itemView.firstName.text = item.firstName
         itemView.setOnClickListener {
