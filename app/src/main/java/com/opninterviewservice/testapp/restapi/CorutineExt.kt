@@ -52,7 +52,7 @@ suspend fun <T> Call<T>.enqueueSuspend(): T {
             override fun onResponse(call: Call<T>, response: Response<T>) {
                 if (response.isSuccessful) {
                     response.body()?.apply { continuation.resume(this) }
-                        ?: continuation.resumeWithException(Exception("Empty body"))
+                        ?: continuation.resumeWithException(Exception("Empty response"))
                 } else {
                     continuation.resumeWithException(
                         Exception(
