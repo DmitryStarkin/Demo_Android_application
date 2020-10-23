@@ -16,9 +16,9 @@ class PeopleListFragmentViewModel : BaseViewModel() {
     fun requestPeople() {
         state.value = ViewStateWrapper(UIStates.LOADING, true)
         if (people.isEmpty()) {
-            restApi.getPeople({ newPeoples ->
+            restApi.getPeople({ newPeople ->
                 people.clear()
-                people.addAll(newPeoples)
+                people.addAll(newPeople)
                 updateUI()
             }, { e ->
                 setError(e)
