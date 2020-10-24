@@ -12,12 +12,9 @@ import com.opninterviewservice.testapp.utils.Logger
 abstract class BaseViewModel : ViewModel() {
 
     protected val state = MutableLiveData<ViewStateWrapper<UIStates, Any?>>()
-    fun getState(): LiveData<ViewStateWrapper<UIStates, Any?>> {
-        return state
-    }
+    fun getState(): LiveData<ViewStateWrapper<UIStates, Any?>> = state
 
     protected val log = Logger(this::class.java.simpleName)
-
 
     fun postError(error: Throwable) {
         state.postValue(

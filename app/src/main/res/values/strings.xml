@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TestApp</string>
+    <string name="app_name">DemoApp</string>
     <string name="undefined_error_message">Something went wrong</string>
     <string name="Id_List_empty_message">List is empty</string>
     <string name="empty_value">Empty</string>
