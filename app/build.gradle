@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
@@ -18,12 +19,19 @@ android {
         buildConfigField "String", "API_ID_URL", "\"http://opn-interview-service.nn.r.appspot.com/list\""
         buildConfigField "String", "USER_DATA_URL", "\"http://opn-interview-service.nn.r.appspot.com/get/\""
         buildConfigField "String", "AUTORIZATION_HEADER", "\"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEyMzQ1Njc4OTAsImlkZW50aXR5IjoxNTE2MjM5MDIyfQ.5uxzGBUovcYPY-XDwfbz1IW__o7a0rLL9Mtl9kV-EQY\""
+        buildConfigField "Boolean", "REST_API_STUB_ENABLED", "false"
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        sinteticDebug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "Boolean", "REST_API_STUB_ENABLED", "true"
         }
     }
 
@@ -43,18 +51,29 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
+
+    //  Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
 
     //  Recycler view
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
+    //  Dagger
+    implementation 'com.google.dagger:dagger:2.27'
+    kapt "com.google.dagger:dagger-compiler:2.16"
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+
+    //  Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'
     implementation 'com.squareup.retrofit2:converter-scalars:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
-    implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.5.0'
 
+    //  GSON
+    implementation 'com.google.code.gson:gson:2.8.6'
+
     implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 

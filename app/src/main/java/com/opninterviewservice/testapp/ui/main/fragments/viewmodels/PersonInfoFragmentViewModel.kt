@@ -1,13 +1,15 @@
 package com.opninterviewservice.testapp.ui.main.fragments.viewmodels
 
 import androidx.lifecycle.viewModelScope
+import com.opninterviewservice.testapp.App
+import com.opninterviewservice.testapp.interfaces.rest.base.AsyncApiCaller
+import com.opninterviewservice.testapp.interfaces.rest.base.BlockingApiCaller
 import com.opninterviewservice.testapp.restapi.*
-import com.opninterviewservice.testapp.restapi.retrofit.RetrofitAsyncApiCaller
-import com.opninterviewservice.testapp.restapi.retrofit.RetrofitBlockingApiCaller
 import com.opninterviewservice.testapp.ui.main.ViewStateWrapper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 //This File Created at 21.10.2020 14:17.
@@ -17,9 +19,17 @@ import kotlinx.coroutines.launch
  */
 class PersonInfoFragmentViewModel : BaseViewModel() {
 
+    init {
+        App.component.inject(this)
+    }
+
     var currentPerson: PersonData? = null
-    val asyncRestApi = RetrofitAsyncApiCaller()
-    val blockingRestApi = RetrofitBlockingApiCaller()
+
+    @Inject
+    lateinit var asyncRestApi: AsyncApiCaller
+
+    @Inject
+    lateinit var blockingRestApi: BlockingApiCaller
 
     fun requestPersonInfo(id: String) {
         if (id.isEmpty()) {

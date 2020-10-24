@@ -2,14 +2,11 @@ package com.opninterviewservice.testapp
 
 import android.app.Application
 import android.content.Context
-import com.opninterviewservice.testapp.settings.Settings
-import com.opninterviewservice.testapp.BuildConfig.DEBUG
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
-import java.util.concurrent.TimeUnit
+import com.opninterviewservice.testapp.dagger.components.AppComponent
+import com.opninterviewservice.testapp.dagger.components.DaggerAppComponent
+import com.opninterviewservice.testapp.dagger.modules.ApiCallerModule
+import com.opninterviewservice.testapp.dagger.modules.RetrofitApiImplModule
+import com.opninterviewservice.testapp.dagger.modules.RetrofitModule
 
 
 //This File Created at 20.10.2020 10:15.
@@ -17,28 +14,7 @@ class App : Application() {
 
     companion object {
         lateinit var instance: App
-    }
-
-    val retrofit: Retrofit by lazy {
-
-        val client = OkHttpClient().newBuilder()
-            .connectTimeout(Settings.cloudResponseTimeOut, TimeUnit.SECONDS)
-            .readTimeout(Settings.cloudResponseTimeOut, TimeUnit.SECONDS)
-            .writeTimeout(Settings.cloudResponseTimeOut, TimeUnit.SECONDS)
-            .apply {
-                if (DEBUG) {
-                    val logging = HttpLoggingInterceptor()
-                    logging.level = HttpLoggingInterceptor.Level.HEADERS
-                    addInterceptor(logging)
-                }
-            }
-            .build()
-
-        Retrofit.Builder()
-            .baseUrl("http://base.com")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        lateinit var component: AppComponent
     }
 
     fun getMainContext(): Context {
@@ -47,6 +23,12 @@ class App : Application() {
 
     override fun onCreate() {
         instance = this
+        component = DaggerAppComponent.builder()
+            .apiCallerModule(ApiCallerModule())
+            .retrofitApiImplModule(RetrofitApiImplModule())
+            .retrofitModule(RetrofitModule())
+            .build()
+
         super.onCreate()
     }
 }

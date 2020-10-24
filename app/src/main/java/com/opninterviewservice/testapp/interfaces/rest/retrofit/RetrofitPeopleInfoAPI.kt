@@ -10,11 +10,14 @@ import retrofit2.http.Url
 
 
 //This File Created at 20.10.2020 10:37.
-interface PeopleInfoAPI {
+interface RetrofitPeopleInfoAPI {
 
     @GET(BuildConfig.API_ID_URL)
     fun peopleCall(@HeaderMap headerMap: Map<String, String>): Call<List<ShortPersonData>>
 
     @GET
-    fun personInfoCall(@Url url: String, @HeaderMap headerMap: Map<String, String>): Call<PersonData>
+    fun personInfoCall(
+        @Url url: String,
+        @HeaderMap headerMap: Map<String, String>
+    ): Call<PersonData>
 }

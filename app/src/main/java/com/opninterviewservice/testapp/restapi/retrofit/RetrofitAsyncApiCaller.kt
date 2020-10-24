@@ -1,9 +1,8 @@
 package com.opninterviewservice.testapp.restapi.retrofit
 
-import com.opninterviewservice.testapp.App
 import com.opninterviewservice.testapp.BuildConfig
 import com.opninterviewservice.testapp.interfaces.rest.base.AsyncApiCaller
-import com.opninterviewservice.testapp.interfaces.rest.retrofit.PeopleInfoAPI
+import com.opninterviewservice.testapp.interfaces.rest.retrofit.RetrofitPeopleInfoAPI
 import com.opninterviewservice.testapp.restapi.PersonData
 import com.opninterviewservice.testapp.restapi.ShortPersonData
 import com.opninterviewservice.testapp.utils.Logger
@@ -23,12 +22,14 @@ val HEADERS = mapOf("Authorization" to BuildConfig.AUTORIZATION_HEADER)
 /**
  * this class demonstrates an asynchronous call to the rest API using Retrofit
  */
-class RetrofitAsyncApiCaller: AsyncApiCaller {
+class RetrofitAsyncApiCaller(private val retrofitAPI: RetrofitPeopleInfoAPI) : AsyncApiCaller {
 
     private val log = Logger(this::class.java.simpleName)
-    private val retrofitAPI: PeopleInfoAPI = App.instance.retrofit.create(PeopleInfoAPI::class.java)
 
-    override fun getPeople(onSusses: (List<ShortPersonData>) -> Unit, onError: (Throwable) -> Unit) {
+    override fun getPeople(
+        onSusses: (List<ShortPersonData>) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
 
         retrofitAPI.peopleCall(HEADERS).enqueue(object : Callback<List<ShortPersonData>> {
             override fun onFailure(call: Call<List<ShortPersonData>>, t: Throwable) {
@@ -36,7 +37,10 @@ class RetrofitAsyncApiCaller: AsyncApiCaller {
                 onError.invoke(t)
             }
 
-            override fun onResponse(call: Call<List<ShortPersonData>>, response: Response<List<ShortPersonData>>) {
+            override fun onResponse(
+                call: Call<List<ShortPersonData>>,
+                response: Response<List<ShortPersonData>>
+            ) {
                 log.d { response.code().toString() }
                 when (response.code()) {
                     CODE_OK -> {
@@ -68,7 +72,11 @@ class RetrofitAsyncApiCaller: AsyncApiCaller {
         })
     }
 
-    override fun getPersonData(id: String, onSusses: (PersonData) -> Unit, onError: (Throwable) -> Unit) {
+    override fun getPersonData(
+        id: String,
+        onSusses: (PersonData) -> Unit,
+        onError: (Throwable) -> Unit
+    ) {
 
         retrofitAPI.personInfoCall(String.format(USER_DATA_LINK_PATTERN, id), HEADERS)
             .enqueue(object : Callback<PersonData> {
@@ -91,7 +99,8 @@ class RetrofitAsyncApiCaller: AsyncApiCaller {
                         else -> {
                             onError.invoke(
                                 Exception(
-                                    "$ERROR " + response.code().toString() + " " + (response.errorBody()
+                                    "$ERROR " + response.code()
+                                        .toString() + " " + (response.errorBody()
                                         ?: "Unknown error")
                                 )
                             )
