@@ -30,7 +30,8 @@ class FragmentRouter(private val manager: FragmentManager, private val container
     private fun setFragment(fragment: Fragment) {
         manager.beginTransaction()
             .replace(containerId, fragment)
-            .commitNow()
+            .addToBackStack(null)
+            .commit()
     }
 
     enum class FragmentRoutes {

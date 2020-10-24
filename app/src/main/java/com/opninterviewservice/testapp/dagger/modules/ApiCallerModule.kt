@@ -4,6 +4,7 @@ import com.opninterviewservice.testapp.App
 import com.opninterviewservice.testapp.BuildConfig
 import com.opninterviewservice.testapp.interfaces.rest.base.AsyncApiCaller
 import com.opninterviewservice.testapp.interfaces.rest.base.BlockingApiCaller
+import com.opninterviewservice.testapp.interfaces.rest.retrofit.RetrofitPeopleInfoAPI
 import com.opninterviewservice.testapp.restapi.apistub.RestApiStub
 import com.opninterviewservice.testapp.restapi.retrofit.RetrofitAsyncApiCaller
 import com.opninterviewservice.testapp.restapi.retrofit.RetrofitBlockingApiCaller
@@ -17,11 +18,9 @@ import javax.inject.Singleton
 @Module
 class ApiCallerModule {
 
-    private val retrofitApiImpl = App.component.getRetrofitPeopleInfoApiImpl()
-
     @Provides
     @Singleton
-    fun provideBlockingApiCaller(): BlockingApiCaller {
+    fun provideBlockingApiCaller(retrofitApiImpl: RetrofitPeopleInfoAPI): BlockingApiCaller {
 
         return if (BuildConfig.REST_API_STUB_ENABLED) {
             RestApiStub(BuildConfig.REST_API_STUB_REQUEST_DELAY)
@@ -32,7 +31,7 @@ class ApiCallerModule {
 
     @Provides
     @Singleton
-    fun provideAsyncApiCaller(): AsyncApiCaller {
+    fun provideAsyncApiCaller(retrofitApiImpl: RetrofitPeopleInfoAPI): AsyncApiCaller {
 
         return if (BuildConfig.REST_API_STUB_ENABLED) {
             RestApiStub(BuildConfig.REST_API_STUB_REQUEST_DELAY)

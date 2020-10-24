@@ -20,7 +20,6 @@ abstract class BaseViewModel : ViewModel() {
 
 
     fun postError(error: Throwable) {
-        state.postValue(ViewStateWrapper(UIStates.LOADING, false))
         state.postValue(
             ViewStateWrapper(
                 UIStates.ERROR,
@@ -30,7 +29,6 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     fun setError(error: Throwable) {
-        state.value = ViewStateWrapper(UIStates.LOADING, false)
         state.value = ViewStateWrapper(
             UIStates.ERROR,
             error.message ?: R.string.undefined_error_message
@@ -38,7 +36,6 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     fun updateUI() {
-        state.value = ViewStateWrapper(UIStates.LOADING, false)
         state.value = ViewStateWrapper(
             UIStates.UPDATE_UI,
             null

@@ -2,18 +2,16 @@ package com.opninterviewservice.testapp.settings
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.gson.GsonBuilder
 import com.opninterviewservice.testapp.App
-import com.opninterviewservice.testapp.interfaces.Setting
+import com.opninterviewservice.testapp.interfaces.Settings
 
 
 //This File Created at 20.10.2020 10:21.
-class PrefSettingProvider: Setting {
+class PrefSettingsProvider: Settings {
 
     private val PREFERENCES_FILE = "AppPref"
     private val PREF_FOR_CLOUD_TIMEOUT = "cloudTimeOut"
 
-    private val gson = GsonBuilder().create()
 
     override var cloudResponseTimeOut: Long
         get() = getPreferences().getLong(PREF_FOR_CLOUD_TIMEOUT, DEFAULT_CLOUD_TIMEOUT)
