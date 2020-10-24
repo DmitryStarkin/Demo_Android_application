@@ -2,4 +2,9 @@
     <string name="app_name">TestApp</string>
     <string name="undefined_error_message">Something went wrong</string>
     <string name="Id_List_empty_message">List is empty</string>
+    <string name="empty_value">Empty</string>
+    <string name="last_name_caption">Last name</string>
+    <string name="age_caption">Age</string>
+    <string name="country_caption">Country</string>
+    <string name="first_name_caption">First name</string>
 </resources>
