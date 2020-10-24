@@ -13,8 +13,8 @@ class PrefSettingsProvider: Settings {
     private val PREF_FOR_CLOUD_TIMEOUT = "cloudTimeOut"
 
 
-    override var cloudResponseTimeOut: Long
-        get() = getPreferences().getLong(PREF_FOR_CLOUD_TIMEOUT, DEFAULT_CLOUD_TIMEOUT)
+    override var networkResponseTimeOut: Long
+        get() = getPreferences().getLong(PREF_FOR_CLOUD_TIMEOUT, DEFAULT_NETWORK_TIMEOUT)
         set(value) {
             setLongPref(PREF_FOR_CLOUD_TIMEOUT, value)
         }

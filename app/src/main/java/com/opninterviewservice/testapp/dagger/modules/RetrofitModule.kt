@@ -22,9 +22,9 @@ class RetrofitModule {
     fun provideRetrofit(): Retrofit {
 
         val client = OkHttpClient().newBuilder()
-            .connectTimeout(Settings.cloudResponseTimeOut, TimeUnit.SECONDS)
-            .readTimeout(Settings.cloudResponseTimeOut, TimeUnit.SECONDS)
-            .writeTimeout(Settings.cloudResponseTimeOut, TimeUnit.SECONDS)
+            .connectTimeout(Settings.networkResponseTimeOut, TimeUnit.SECONDS)
+            .readTimeout(Settings.networkResponseTimeOut, TimeUnit.SECONDS)
+            .writeTimeout(Settings.networkResponseTimeOut, TimeUnit.SECONDS)
             .apply {
                 if (BuildConfig.DEBUG) {
                     val logging = HttpLoggingInterceptor()
