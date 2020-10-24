@@ -16,7 +16,7 @@ import java.lang.reflect.Type
 //This File Created at 23.10.2020 16:38.
 class RestApiStub(private val requestDelay: Long = 2000L) : AsyncApiCaller, BlockingApiCaller {
 
-    protected val log = Logger(this::class.java.simpleName)
+    private val log = Logger(this::class.java.simpleName)
     private val gson: Gson = GsonBuilder().create()
     private val mainHandler = Handler(Looper.getMainLooper())
 
@@ -59,6 +59,7 @@ class RestApiStub(private val requestDelay: Long = 2000L) : AsyncApiCaller, Bloc
         return if (peopleList.isNullOrEmpty()) {
             throw Exception("No people data")
         } else {
+            log.d{peopleList.toString()}
             peopleList
         }
     }
