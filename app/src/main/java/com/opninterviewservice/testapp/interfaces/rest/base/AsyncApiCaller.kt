@@ -9,8 +9,8 @@ interface AsyncApiCaller {
 
     /**
      * returns a list of people the implementation must be asynchronous
-     * @param onSusses callback called in case of success
-     * @param onError callback called in case of error
+     * @param onSusses callback called on main thread in case of success
+     * @param onError callback called on main thread in case of error
      */
     fun getPeople(onSusses: (List<ShortPersonData>) -> Unit, onError: (Throwable) -> Unit)
 
@@ -18,8 +18,8 @@ interface AsyncApiCaller {
     /**
      * returns a data of person the implementation must be asynchronous
      * @param id ID of the person from the list of people
-     * @param onSusses callback called in case of success
-     * @param onError callback called in case of error
+     * @param onSusses callback called on main thread in case of success
+     * @param onError callback called on main thread in case of error
      */
     fun getPersonData(id: String, onSusses: (PersonData) -> Unit, onError: (Throwable) -> Unit)
 }

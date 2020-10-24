@@ -4,7 +4,7 @@ import com.opninterviewservice.testapp.App
 import com.opninterviewservice.testapp.BuildConfig
 import com.opninterviewservice.testapp.interfaces.rest.base.AsyncApiCaller
 import com.opninterviewservice.testapp.interfaces.rest.base.BlockingApiCaller
-import com.opninterviewservice.testapp.restapi.RestApiStub
+import com.opninterviewservice.testapp.restapi.apistub.RestApiStub
 import com.opninterviewservice.testapp.restapi.retrofit.RetrofitAsyncApiCaller
 import com.opninterviewservice.testapp.restapi.retrofit.RetrofitBlockingApiCaller
 import dagger.Module
@@ -24,9 +24,9 @@ class ApiCallerModule {
     fun provideBlockingApiCaller(): BlockingApiCaller {
 
         return if (BuildConfig.REST_API_STUB_ENABLED) {
-            RetrofitBlockingApiCaller(retrofitApiImpl)
+            RestApiStub(BuildConfig.REST_API_STUB_REQUEST_DELAY)
         } else {
-            RestApiStub()
+            RetrofitBlockingApiCaller(retrofitApiImpl)
         }
     }
 
@@ -35,9 +35,9 @@ class ApiCallerModule {
     fun provideAsyncApiCaller(): AsyncApiCaller {
 
         return if (BuildConfig.REST_API_STUB_ENABLED) {
-            RetrofitAsyncApiCaller(retrofitApiImpl)
+            RestApiStub(BuildConfig.REST_API_STUB_REQUEST_DELAY)
         } else {
-            RestApiStub()
+            RetrofitAsyncApiCaller(retrofitApiImpl)
         }
     }
 }

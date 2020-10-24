@@ -20,6 +20,7 @@ android {
         buildConfigField "String", "USER_DATA_URL", "\"http://opn-interview-service.nn.r.appspot.com/get/\""
         buildConfigField "String", "AUTORIZATION_HEADER", "\"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEyMzQ1Njc4OTAsImlkZW50aXR5IjoxNTE2MjM5MDIyfQ.5uxzGBUovcYPY-XDwfbz1IW__o7a0rLL9Mtl9kV-EQY\""
         buildConfigField "Boolean", "REST_API_STUB_ENABLED", "false"
+        buildConfigField "Long", "REST_API_STUB_REQUEST_DELAY", "2000L"
     }
 
     buildTypes {
@@ -28,7 +29,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
-        sinteticDebug {
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "Boolean", "REST_API_STUB_ENABLED", "true"
