@@ -22,7 +22,9 @@ const val PEOPLE_LIST_JSON = """[
 {"id": "9",
 "firstName": "nine"},
 {"id": "10",
-"firstName": "ten"}
+"firstName": "ten"},
+{"id": "11",
+"firstName": "this item causes the Wrong Id exception"}
 ]
 """
 
@@ -74,6 +76,10 @@ const val PERSON_INFO_LIST_JSON = """[
 "country": "nineCountry"},
 {"id": "10",
 "firstName": "ten",
+"lastName": "tenLast",
+"age": 10,
+"country": "tenCountry"},
+{"id": "12",
 "lastName": "tenLast",
 "age": 10,
 "country": "tenCountry"}

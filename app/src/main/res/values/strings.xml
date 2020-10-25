@@ -7,4 +7,5 @@
     <string name="age_caption">Age</string>
     <string name="country_caption">Country</string>
     <string name="first_name_caption">First name</string>
+    <string name="empty_data_message">empty data</string>
 </resources>

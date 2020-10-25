@@ -34,8 +34,7 @@ abstract class BaseViewModel : ViewModel() {
 
     fun updateUI() {
         state.value = ViewStateWrapper(
-            UIStates.UPDATE_UI,
-            null
+            UIStates.UPDATE_UI
         )
     }
 

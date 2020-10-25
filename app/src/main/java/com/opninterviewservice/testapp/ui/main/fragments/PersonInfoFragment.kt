@@ -39,13 +39,9 @@ class PersonInfoFragment : Fragment(R.layout.people_info_fragment) {
         viewModel.getState().observe(this as LifecycleOwner, {
             when (it?.state) {
                 BaseViewModel.UIStates.LOADING -> {
-                    if (it.data == true) {
-                        changeUIVisibility(VisibilityState.GONE)
-                        spinner.visibility = View.VISIBLE
-                        emptyMessage.visibility = View.GONE
-                    } else {
-                        spinner.visibility = View.GONE
-                    }
+                    changeUIVisibility(VisibilityState.GONE)
+                    emptyMessage.visibility = View.GONE
+                    spinner.visibility = View.VISIBLE
                 }
 
                 BaseViewModel.UIStates.ERROR -> {
@@ -73,6 +69,7 @@ class PersonInfoFragment : Fragment(R.layout.people_info_fragment) {
                         setUIValues(this)
                         changeUIVisibility(VisibilityState.VISIBLE)
                     } ?: run {
+                        emptyMessage.text = getString(R.string.empty_data_message)
                         emptyMessage.visibility = View.VISIBLE
                         changeUIVisibility(VisibilityState.GONE)
                     }

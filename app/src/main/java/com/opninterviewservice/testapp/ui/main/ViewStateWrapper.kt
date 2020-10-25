@@ -2,7 +2,7 @@ package com.opninterviewservice.testapp.ui.main
 
 
 //This File Created at 20.10.2020 11:58.
-class ViewStateWrapper<S : Enum<*>?, D>(state: S, data: D) {
+class ViewStateWrapper<S : Enum<*>?, D>(state: S, data: D? = null) {
     /**
      * State of view to be rendered
      *
@@ -13,7 +13,7 @@ class ViewStateWrapper<S : Enum<*>?, D>(state: S, data: D) {
     /**
      * Data required for rendering current state
      */
-    val data: D
+    val data: D?
 
 
     init {

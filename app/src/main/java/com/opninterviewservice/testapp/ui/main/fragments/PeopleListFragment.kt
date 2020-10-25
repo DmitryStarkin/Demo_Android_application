@@ -29,7 +29,8 @@ class PeopleListFragment : Fragment(R.layout.people_list_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         idsItems.apply {
-            adapter = PeopleAdapter(ArrayList()
+            adapter = PeopleAdapter(
+                ArrayList()
 
             ) { peopleData ->
                 (activity as MainActivity).router.moveToView(
@@ -39,54 +40,69 @@ class PeopleListFragment : Fragment(R.layout.people_list_fragment) {
                     })
             }
 
-            layoutManager = LinearLayoutManager(this.context).apply { orientation = LinearLayoutManager.VERTICAL }
+            layoutManager = LinearLayoutManager(this.context).apply {
+                orientation = LinearLayoutManager.VERTICAL
+            }
 
             addItemDecoration(
                 DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-                .apply { this.setDrawable(ContextCompat.getDrawable(context, R.drawable.item_divider)!!) })
+                    .apply {
+                        this.setDrawable(
+                            ContextCompat.getDrawable(
+                                context,
+                                R.drawable.item_divider
+                            )!!
+                        )
+                    })
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get((PeopleListFragmentViewModel::class.java))
-            viewModel.getState().observe(this as LifecycleOwner, {
-                when (it?.state) {
-                    BaseViewModel.UIStates.LOADING -> {
-                        if (it.data == true) {
-                            spinner.visibility = View.VISIBLE
-                            emptyMessage.visibility = View.GONE
-                        } else {
-                            spinner.visibility = View.GONE
-                        }
-                    }
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.NewInstanceFactory()
+        ).get((PeopleListFragmentViewModel::class.java))
+        viewModel.getState().observe(this as LifecycleOwner, {
+            when (it?.state) {
+                BaseViewModel.UIStates.LOADING -> {
+                    idsItems.visibility = View.GONE
+                    emptyMessage.visibility = View.GONE
+                    spinner.visibility = View.VISIBLE
+                }
 
-                    BaseViewModel.UIStates.ERROR -> {
-                        spinner.visibility = View.GONE
-                        if (it.data is Int) {
-                            Toast.makeText(context!!.applicationContext,
-                                it.data, Toast.LENGTH_SHORT).show()
-                        } else {
-                            Toast.makeText(context!!.applicationContext,
-                                it.data as String, Toast.LENGTH_SHORT).show()
-                            emptyMessage.visibility = View.VISIBLE
-                            emptyMessage.text = it.data
-                        }
-                    }
-
-                    BaseViewModel.UIStates.UPDATE_UI -> {
-                        spinner.visibility = View.GONE
-                        if (viewModel.people.isNullOrEmpty()) {
-                            emptyMessage.visibility = View.VISIBLE
-                            idsItems.visibility = View.GONE
-                        } else {
-                            emptyMessage.visibility = View.GONE
-                            idsItems.visibility = View.VISIBLE
-                            (idsItems.adapter as PeopleAdapter).setData(viewModel.people)
-                        }
+                BaseViewModel.UIStates.ERROR -> {
+                    spinner.visibility = View.GONE
+                    idsItems.visibility = View.GONE
+                    if (it.data is Int) {
+                        Toast.makeText(
+                            context!!.applicationContext,
+                            it.data, Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            context!!.applicationContext,
+                            it.data as String, Toast.LENGTH_SHORT
+                        ).show()
+                        emptyMessage.text = it.data
+                        emptyMessage.visibility = View.VISIBLE
                     }
                 }
-            })
+
+                BaseViewModel.UIStates.UPDATE_UI -> {
+                    spinner.visibility = View.GONE
+                    if (viewModel.people.isNullOrEmpty()) {
+                        idsItems.visibility = View.GONE
+                        emptyMessage.text = getString(R.string.empty_data_message)
+                        emptyMessage.visibility = View.VISIBLE
+                    } else {
+                        emptyMessage.visibility = View.GONE
+                        idsItems.visibility = View.VISIBLE
+                        (idsItems.adapter as PeopleAdapter).setData(viewModel.people)
+                    }
+                }
+            }
+        })
     }
 
     override fun onStart() {

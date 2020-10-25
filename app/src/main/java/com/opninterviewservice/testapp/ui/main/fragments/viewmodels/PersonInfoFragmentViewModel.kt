@@ -46,7 +46,7 @@ class PersonInfoFragmentViewModel : BaseViewModel() {
 
     private fun getPersonInfo(id: String) {
 
-        state.value = ViewStateWrapper(UIStates.LOADING, true)
+        state.value = ViewStateWrapper(UIStates.LOADING)
 
         viewModelScope.launch(Dispatchers.IO) {
             val data = try {
@@ -71,12 +71,12 @@ class PersonInfoFragmentViewModel : BaseViewModel() {
      */
     private fun getPersonInfo2(id: String) {
 
-        state.value = ViewStateWrapper(UIStates.LOADING, true)
+        state.value = ViewStateWrapper(UIStates.LOADING)
         viewModelScope.launch {
             currentPerson = try {
                 asyncRestApi.getPersonData(id) //suspend function
             } catch (t: Throwable) {
-                postError(t)
+                setError(t)
 //                we can remove cancel here, then the currentPeople variable will get a null value
 //                and this situation will be processed in the fragment as an empty profile
 //                otherwise an error message will be displayed
