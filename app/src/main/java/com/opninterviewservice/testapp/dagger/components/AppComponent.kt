@@ -3,8 +3,8 @@ package com.opninterviewservice.testapp.dagger.components
 import com.opninterviewservice.testapp.dagger.modules.ApiCallerModule
 import com.opninterviewservice.testapp.dagger.modules.RetrofitApiImplModule
 import com.opninterviewservice.testapp.dagger.modules.RetrofitModule
-import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.PeopleListFragmentViewModel
-import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.PersonInfoFragmentViewModel
+import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.PeopleListViewModel
+import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.PersonInfoViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -15,6 +15,6 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [RetrofitModule::class, RetrofitApiImplModule::class, ApiCallerModule::class])
 interface AppComponent {
-    fun inject(personInfoFragmentViewModel: PersonInfoFragmentViewModel)
-    fun inject(peopleListFragmentViewModel: PeopleListFragmentViewModel)
+    fun inject(personInfoFragmentViewModel: PersonInfoViewModel)
+    fun inject(peopleListFragmentViewModel: PeopleListViewModel)
 }

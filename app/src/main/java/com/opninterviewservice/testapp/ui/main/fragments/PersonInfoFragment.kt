@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.opninterviewservice.testapp.R
 import com.opninterviewservice.testapp.restapi.PersonData
 import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.BaseViewModel
-import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.PersonInfoFragmentViewModel
+import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.PersonInfoViewModel
 import kotlinx.android.synthetic.main.people_info_fragment.*
 import kotlinx.android.synthetic.main.people_list_fragment.emptyMessage
 import kotlinx.android.synthetic.main.people_list_fragment.spinner
@@ -28,14 +28,14 @@ class PersonInfoFragment : Fragment(R.layout.people_info_fragment) {
         }
     }
 
-    private lateinit var viewModel: PersonInfoFragmentViewModel
+    private lateinit var viewModel: PersonInfoViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
-        ).get((PersonInfoFragmentViewModel::class.java))
+        ).get((PersonInfoViewModel::class.java))
         viewModel.getState().observe(this as LifecycleOwner, {
             when (it?.state) {
                 BaseViewModel.UIStates.LOADING -> {

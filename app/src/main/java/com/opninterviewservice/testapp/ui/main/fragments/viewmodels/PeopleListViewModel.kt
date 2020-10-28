@@ -10,7 +10,7 @@ import javax.inject.Inject
  * this class demonstrates standard way how to call a async rest API
  */
 
-class PeopleListFragmentViewModel : BaseViewModel() {
+class PeopleListViewModel : BaseViewModel() {
 
     init {
         App.component.inject(this)

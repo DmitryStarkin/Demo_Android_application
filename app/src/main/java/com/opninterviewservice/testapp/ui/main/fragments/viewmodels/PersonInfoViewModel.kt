@@ -17,7 +17,7 @@ import javax.inject.Inject
 /**
  * this class demonstrates how to call a rest API using coroutines
  */
-class PersonInfoFragmentViewModel : BaseViewModel() {
+class PersonInfoViewModel : BaseViewModel() {
 
     init {
         App.component.inject(this)

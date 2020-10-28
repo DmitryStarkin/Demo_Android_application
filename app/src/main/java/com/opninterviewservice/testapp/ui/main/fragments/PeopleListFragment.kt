@@ -14,7 +14,7 @@ import com.opninterviewservice.testapp.ui.main.FragmentRouter
 import com.opninterviewservice.testapp.ui.main.MainActivity
 import com.opninterviewservice.testapp.ui.main.adapters.PeopleAdapter
 import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.BaseViewModel
-import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.PeopleListFragmentViewModel
+import com.opninterviewservice.testapp.ui.main.fragments.viewmodels.PeopleListViewModel
 import kotlinx.android.synthetic.main.people_list_fragment.*
 
 
@@ -24,7 +24,7 @@ class PeopleListFragment : Fragment(R.layout.people_list_fragment) {
         fun newInstance() = PeopleListFragment()
     }
 
-    private lateinit var viewModel: PeopleListFragmentViewModel
+    private lateinit var viewModel: PeopleListViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,7 +62,7 @@ class PeopleListFragment : Fragment(R.layout.people_list_fragment) {
         viewModel = ViewModelProvider(
             this,
             ViewModelProvider.NewInstanceFactory()
-        ).get((PeopleListFragmentViewModel::class.java))
+        ).get((PeopleListViewModel::class.java))
         viewModel.getState().observe(this as LifecycleOwner, {
             when (it?.state) {
                 BaseViewModel.UIStates.LOADING -> {
