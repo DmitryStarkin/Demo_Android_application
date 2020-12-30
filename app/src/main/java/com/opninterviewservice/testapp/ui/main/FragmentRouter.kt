@@ -13,18 +13,7 @@ import com.opninterviewservice.testapp.ui.main.fragments.PersonInfoFragment
 class FragmentRouter(private val manager: FragmentManager, private val containerId: Int) {
 
     fun moveToView(rout: FragmentRoutes, data: Bundle? = null) {
-        when (rout) {
-
-            FragmentRoutes.PEOPLE_LIST -> {
-                setFragment(PeopleListFragment.newInstance())
-            }
-
-            FragmentRoutes.PERSON_VIEW -> {
-                data?.let {
-                    setFragment(PersonInfoFragment.newInstance(it))
-                }
-            }
-        }
+            setFragment(rout.initFragment.invoke().apply { arguments = data })
     }
 
     private fun setFragment(fragment: Fragment) {
@@ -34,13 +23,13 @@ class FragmentRouter(private val manager: FragmentManager, private val container
             .commit()
     }
 
-    enum class FragmentRoutes {
+    enum class FragmentRoutes(val initFragment: () -> Fragment) {
         /**
          * Rout to
          */
-        PEOPLE_LIST,
+        PEOPLE_LIST({PeopleListFragment() }),
         /**
          */
-        PERSON_VIEW
+        PERSON_VIEW({PersonInfoFragment()})
     }
 }

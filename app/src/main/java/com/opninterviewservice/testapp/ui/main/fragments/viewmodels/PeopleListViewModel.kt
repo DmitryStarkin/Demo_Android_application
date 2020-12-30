@@ -22,7 +22,7 @@ class PeopleListViewModel : BaseViewModel() {
     lateinit var restApi: AsyncApiCaller
 
     fun requestPeople() {
-        state.value = ViewStateWrapper(UIStates.LOADING, true)
+        state.value = ViewStateWrapper(UIStates.LOADING)
         if (people.isEmpty()) {
             restApi.getPeople({ newPeople ->
                 people.clear()
